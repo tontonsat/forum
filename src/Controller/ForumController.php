@@ -5,15 +5,15 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Article;
+use App\Repository\ArticleRepository;
 
 class ForumController extends AbstractController
 {
     /**
      * @Route("/forum", name="forum")
      */
-    public function index()
+    public function index(ArticleRepository $repo)
     {
-        $repo = $this->getDoctrine()->getRepository(Article::class);
         $articles = $repo->findAll();
         return $this->render('forum/index.html.twig', [
             'controller_name'   => 'ForumController',
@@ -32,9 +32,11 @@ class ForumController extends AbstractController
 
     /**
      * [show description]
-     * @Route ("/forum/show/12", name="forum_show")
+     * @Route ("/forum/show/{id}", name="forum_show")
      */
-    public function show() {
-        return $this->render('forum/show.html.twig');
+    public function show(ArticleRepository $repo, Article $article) {
+        return $this->render('forum/show.html.twig',[
+            'article' => $article
+        ]);
     }
 }

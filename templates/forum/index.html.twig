@@ -7,10 +7,10 @@
         {% for article in articles %}
         <article>
             <h2>{{ article.title }}</h2>
-            <div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y') }} tags: test category test
+            <div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }}
                 <div class="content">
                     <img src="{{ article.image }}" alt="">
-                    <p>{{ article.content }}<a href="{{path('forum_show')}}" class="btn btn-primary">lire la suite</a></p>
+                    <p>{{ article.content }}<a href="{{path('forum_show', {'id': article.id})}}" class="btn btn-primary">lire la suite</a></p>
                 </div>
             </div>
         </article>
