@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Article;
 
 class ForumController extends AbstractController
 {
@@ -12,8 +13,11 @@ class ForumController extends AbstractController
      */
     public function index()
     {
+        $repo = $this->getDoctrine()->getRepository(Article::class);
+        $articles = $repo->findAll();
         return $this->render('forum/index.html.twig', [
-            'controller_name' => 'ForumController',
+            'controller_name'   => 'ForumController',
+            'articles'          => $articles
         ]);
     }
 

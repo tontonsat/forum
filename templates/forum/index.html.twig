@@ -4,32 +4,16 @@
 
 {% block body %}
     <section class="articles">
+        {% for article in articles %}
         <article>
-            <h2>Titre de l'article</h2>
-            <div class="metadata">Ecrit le 12 juillet à 18h tags: test category test
+            <h2>{{ article.title }}</h2>
+            <div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y') }} tags: test category test
                 <div class="content">
-                    <img src="http://placehold.it/350x150" alt="">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis beatae nihil iure dolores exercitationem rem.Ullam soluta aut quo laborum impedit eligendi et sint. Maxime iusto vel ipsa, quod totam?<a href="{{path('forum_show')}}" class="btn btn-primary">lire la suite</a></p>
+                    <img src="{{ article.image }}" alt="">
+                    <p>{{ article.content }}<a href="{{path('forum_show')}}" class="btn btn-primary">lire la suite</a></p>
                 </div>
             </div>
         </article>
-        <article>
-            <h2>Titre de l'article</h2>
-            <div class="metadata">Ecrit le 12 juillet à 18h tags: test category test
-                <div class="content">
-                    <img src="http://placehold.it/350x150" alt="">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium, beatae dolore? Eius quis maiores aut.Quod, explicabo voluptatibus tempore enim ad vitae. Odit, voluptate, ratione! Accusantium, cum, hic. Ipsa, porro.<a href="{{path('forum_show')}}" class="btn btn-primary">lire la suite</a></p>
-                </div>
-            </div>
-        </article>
-        <article>
-            <h2>Titre de l'article</h2>
-            <div class="metadata">Ecrit le 12 juillet à 18h tags: test category test
-                <div class="content">
-                    <img src="http://placehold.it/350x150" alt="">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quisquam sunt reiciendis dolorem maiores, nisi.Dignissimos minus dicta dolorem necessitatibus eaque impedit, totam est beatae. Unde, aut doloremque perferendis beatae.<a href="{{path('forum_show')}}" class="btn btn-primary">lire la suite</a></p>
-                </div>
-            </div>
-        </article>
+        {% endfor %}
     </section>
 {% endblock %}
