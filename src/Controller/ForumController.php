@@ -4,6 +4,9 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Persistence\ObjectManager;
+
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
 
@@ -27,6 +30,22 @@ class ForumController extends AbstractController
     public function home() {
         return $this->render('forum/home.html.twig', [
             'age' => 14
+        ]);
+    }
+
+    /**
+     * [create description]
+     * @Route ("/forum/new", name="forum_create")
+     */
+    public function create(Request $request, ObjectManager $manager) {
+        $article = new Article();
+        $form = $this->createFormBuilder($article)
+                     ->add('title')
+                     ->add('content')
+                     ->add('image')
+                     ->getForm();
+        return $this->render('forum/create.html.twig', [
+            'formArticle' => $form->createView()
         ]);
     }
 
