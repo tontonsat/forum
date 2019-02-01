@@ -2,11 +2,23 @@
 
 {% form_theme formArticle 'bootstrap_4_layout.html.twig' %}
 {% block body %}
-    <h1>Création thread</h1>
+    <h1>
+        {% if editMode %}
+            Modification thread
+        {% else %}
+            Création thread
+        {% endif %}
+    </h1>
     {{ form_start(formArticle) }}
         {{ form_row(formArticle.title, {'attr': {'placeholder': "Titre de l'article"}}) }}
         {{ form_row(formArticle.content, {'attr': {'placeholder': "Contenu"}}) }}
         {{ form_row(formArticle.image, {'attr': {'placeholder': "Url"}}) }}
-        <button type="submit" class="btn btn-success">Enregistrer</button>
+        <button type="submit" class="btn btn-success">
+            {% if editMode %}
+                Modifier
+            {% else %}
+                Créer
+            {% endif %}
+        </button>
     {{ form_end(formArticle) }}
 {% endblock %}
