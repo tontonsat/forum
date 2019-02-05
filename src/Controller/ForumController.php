@@ -8,7 +8,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use App\Form\ArticleType;
+use App\Form\CommentType;
 use App\Entity\Article;
+use App\Entity\Comment;
 use App\Repository\ArticleRepository;
 
 class ForumController extends AbstractController
@@ -35,7 +37,7 @@ class ForumController extends AbstractController
     }
 
     /**
-     * [create description]
+     * [addComment description]
      * @Route ("/forum/new", name="forum_create")
      * @Route ("/forum/{id}/edit", name="forum_edit")
      */
@@ -72,11 +74,43 @@ class ForumController extends AbstractController
     }
 
     /**
+     * [comment description]
+     * @Route ("/forum/{id}/comment", name="forum_comment")
+     */
+    public function comment(Comment $comment, Article $article, Request $request, ObjectManager $manager) {
+
+        $form->handleRequest($request);
+        $data = $form->getData();
+        dump($data);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            if(!$comment->getId()) {
+                $comment->setCreatedAt(new \Datetime);
+            }
+
+            $manager->persist($comment);
+            $manager->flush();
+
+            return $this->redirectToRoute('forum_show', ['id' => $article->getid()]);
+        }
+        return $this->render('forum/form.html.twig', [
+            'formArticle' => $form->createView(),
+            'editMode' => $article->getId() !== null
+        ]);
+    }
+
+    /**
      * [show description]
      * @Route ("/forum/show/{id}", name="forum_show")
      */
     public function show(ArticleRepository $repo, Article $article) {
+
+        $comment = new Comment();
+
+        $form = $this->createForm(CommentType::class, $comment);
+
         return $this->render('forum/show.html.twig',[
+            'formComment' => $form->createView(),
             'article' => $article
         ]);
     }
