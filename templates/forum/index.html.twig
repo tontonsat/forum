@@ -7,7 +7,7 @@
         {% for article in articles %}
         <article>
             <h2>{{ article.title }}</h2>
-            <div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }}
+            <div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }} catégorie {{ article.category.title }}
                 <div class="content">
                     <img src="{{ article.image }}" alt="">
                     <p>{{ article.content }}<a href="{{path('forum_show', {'id': article.id})}}" class="btn btn-primary">lire la suite</a> <a href="{{path('forum_edit', {'id': article.id})}}" class="btn btn-primary">Modifier</a></p>
