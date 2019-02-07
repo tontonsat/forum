@@ -20,7 +20,7 @@ class ForumController extends AbstractController
      */
     public function index(ArticleRepository $repo)
     {
-        $articles = $repo->findAll();
+        $articles = $repo->findBy([],['id' => 'DESC']);
         return $this->render('forum/index.html.twig', [
             'controller_name'   => 'ForumController',
             'articles'          => $articles
@@ -74,40 +74,28 @@ class ForumController extends AbstractController
     }
 
     /**
-     * [comment description]
-     * @Route ("/forum/{id}/comment", name="forum_comment")
-     */
-    public function comment(Comment $comment, Article $article, Request $request, ObjectManager $manager) {
-
-        $form->handleRequest($request);
-        $data = $form->getData();
-        dump($data);
-
-        if($form->isSubmitted() && $form->isValid()) {
-            if(!$comment->getId()) {
-                $comment->setCreatedAt(new \Datetime);
-            }
-
-            $manager->persist($comment);
-            $manager->flush();
-
-            return $this->redirectToRoute('forum_show', ['id' => $article->getid()]);
-        }
-        return $this->render('forum/form.html.twig', [
-            'formArticle' => $form->createView(),
-            'editMode' => $article->getId() !== null
-        ]);
-    }
-
-    /**
      * [show description]
      * @Route ("/forum/show/{id}", name="forum_show")
      */
-    public function show(ArticleRepository $repo, Article $article) {
+    public function show(Request $request, ArticleRepository $repo, Article $article, ObjectManager $manager) {
 
         $comment = new Comment();
 
         $form = $this->createForm(CommentType::class, $comment);
+        $comment->setArticle($article);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            if(!$comment->getId()) {
+                $comment->setCreatedAt(new \Datetime);
+                $article->addComment($comment);
+            }
+
+            $manager->persist($comment);
+            $manager->flush();
+            return $this->redirectToRoute('forum_show', ['id' => $article->getid()]);
+        }
 
         return $this->render('forum/show.html.twig',[
             'formComment' => $form->createView(),

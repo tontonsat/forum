@@ -26,17 +26,21 @@
         {{ form_end(formComment) }}
     </section>
     <section class="comments">
-        {% for comment in article.comments %}
-            <div class="comment">
-                <div class="row">
-                    <div class="col-3">
-                        {{ comment.createdAt | date('d/m/Y à H:i') }}
-                    </div>
-                    <div class="col">
-                        {{ comment.content }}
+        {% if article.comments is empty %}
+            <p>Soyez le premier à commenter!</p>
+        {% else %}
+            {% for comment in article.comments %}
+                <div class="comment">
+                    <div class="row">
+                        <div class="col-3">
+                            {{ comment.createdAt | date('d/m/Y à H:i') }}
+                        </div>
+                        <div class="col">
+                            {{ comment.content }}
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        {% endif %}
     </section>
 {% endblock %}

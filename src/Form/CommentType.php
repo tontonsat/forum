@@ -11,10 +11,7 @@ class CommentType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->setAction('forum_comment')
-            ->add('content', null, ["label" => false])
-        ;
+        $builder->add('content', null, ["label" => false]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
