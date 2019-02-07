@@ -6,7 +6,9 @@
             {% block title %}Welcome!{% endblock %}
         </title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.2.1/slate/bootstrap.min.css">
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            <link href="{{ asset('css/style.css') }}" rel="stylesheet" />
+        {% endblock %}
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -24,6 +26,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('forum_create') }}">
                             Nouveau thread<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('security_register') }}">
+                            Register<span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">

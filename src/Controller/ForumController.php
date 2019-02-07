@@ -65,6 +65,7 @@ class ForumController extends AbstractController
             $manager->persist($article);
             $manager->flush();
 
+            $this->addFlash('notice','Article créé avec succès');
             return $this->redirectToRoute('forum_show', ['id' => $article->getid()]);
         }
         return $this->render('forum/form.html.twig', [
@@ -94,6 +95,7 @@ class ForumController extends AbstractController
 
             $manager->persist($comment);
             $manager->flush();
+            $this->addFlash('notice','Commentaire créé avec succès');
             return $this->redirectToRoute('forum_show', ['id' => $article->getid()]);
         }
 

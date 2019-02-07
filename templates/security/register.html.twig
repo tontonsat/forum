@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registration{% endblock %}
+{% form_theme formUser 'bootstrap_4_layout.html.twig' %}
+{% block body %}
+    <h1>Register</h1>
+    {{ form_start(formUser) }}
+        {{ form_row(formUser.name, {'attr': {'placeholder': "Name"}}) }}
+        {{ form_row(formUser.email, {'attr': {'placeholder': "Email"}}) }}
+        {{ form_row(formUser.password, {'attr': {'placeholder': "Password"}}) }}
+        {{ form_row(formUser.confirmPassword, {'attr': {'placeholder': "Confirm password"}}) }}
+        <button type="submit" class="btn btn-success">
+            Register
+        </button>
+    {{ form_end(formUser) }}
+{% endblock %}
