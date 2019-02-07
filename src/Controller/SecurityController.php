@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
+use Psr\Log\LoggerInterface;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 use \App\Entity\User;
 use \App\Form\RegistrationType;
@@ -20,7 +23,7 @@ class SecurityController extends AbstractController
      * @param  ObjectManager $manager
      * @return [type]                 [description]
      */
-    public function register(Request $request, ObjectManager $manager) {
+    public function register(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder, LoggerInterface $logger) {
 
         $user = new User();
 
@@ -28,8 +31,16 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            $encoded = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($encoded);
+
+            $logger->info("User register ok: ". $user->getUsername());
+
             $manager->persist($user);
             $manager->flush();
+
+            $this->addFlash('notice','Inscription ok!');
+            return $this->redirectToRoute("security_login");
         }
 
         return $this->render('security/register.html.twig',[
@@ -38,4 +49,20 @@ class SecurityController extends AbstractController
             'formUser'          => $form->createView()
         ]);
     }
+
+    /**
+     * [login description]
+     * @return [type] [description]
+     * @Route("/login", name="security_login")
+     */
+    public function login() {
+        return $this->render('security/login.html.twig');
+    }
+
+    /**
+     * [logout description]
+     * @return [type] [description]
+     * @Route("/logout", name="security_logout")
+     */
+    public function logout() {}
 }

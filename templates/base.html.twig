@@ -23,14 +23,25 @@
                         <a class="nav-link" href="{{ path('forum') }}">
                             Articles<span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('forum_create') }}">
-                            Nouveau thread<span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('security_register') }}">
-                            Register<span class="sr-only">(current)</span></a>
-                    </li>
+                    {% if not app.user %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('security_register') }}">
+                                Register<span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('security_login') }}">
+                                Login<span class="sr-only">(current)</span></a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('forum_create') }}">
+                                Nouveau thread<span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('security_logout') }}">
+                                Logout<span class="sr-only">(current)</span></a>
+                        </li>
+                    {% endif %}
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="text" placeholder="Search">

@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Register</h1>
     {{ form_start(formUser) }}
-        {{ form_row(formUser.name, {'attr': {'placeholder': "Name"}}) }}
+        {{ form_row(formUser.username, {'attr': {'placeholder': "Name"}}) }}
         {{ form_row(formUser.email, {'attr': {'placeholder': "Email"}}) }}
         {{ form_row(formUser.password, {'attr': {'placeholder': "Password"}}) }}
         {{ form_row(formUser.confirmPassword, {'attr': {'placeholder': "Confirm password"}}) }}
