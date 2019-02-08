@@ -11,6 +11,7 @@ use App\Form\ArticleType;
 use App\Form\CommentType;
 use App\Entity\Article;
 use App\Entity\Comment;
+use App\Entity\User;
 use App\Repository\ArticleRepository;
 
 class ForumController extends AbstractController
@@ -60,6 +61,7 @@ class ForumController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
             if(!$article->getId()) {
                 $article->setCreatedAt(new \Datetime);
+                $article->setAuthor();
             }
 
             $manager->persist($article);

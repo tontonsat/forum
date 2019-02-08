@@ -15,6 +15,9 @@ use \App\Entity\User;
 use \App\Form\RegistrationType;
 
 class SecurityController extends AbstractController
+
+
+
 {
     /**
      * [register description]
