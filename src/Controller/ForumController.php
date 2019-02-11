@@ -61,7 +61,7 @@ class ForumController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
             if(!$article->getId()) {
                 $article->setCreatedAt(new \Datetime);
-                $article->setAuthor();
+                $article->setAuthor($this->getUser());
             }
 
             $manager->persist($article);
@@ -83,7 +83,6 @@ class ForumController extends AbstractController
     public function show(Request $request, ArticleRepository $repo, Article $article, ObjectManager $manager) {
 
         $comment = new Comment();
-
         $form = $this->createForm(CommentType::class, $comment);
         $comment->setArticle($article);
 
@@ -91,8 +90,9 @@ class ForumController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
             if(!$comment->getId()) {
-                $comment->setCreatedAt(new \Datetime);
-                $article->addComment($comment);
+                        $comment->setCreatedAt(new \Datetime)
+                                ->setAuthor($this->getUser())
+                                ->setArticle($article);
             }
 
             $manager->persist($comment);

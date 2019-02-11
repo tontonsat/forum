@@ -11,7 +11,7 @@
     <section class="articles">
         <article>
             <h2>{{ article.title }}</h2>
-            <div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }} catégorie {{ article.category.title }}
+            <div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }} par {{ article.author.username }} (catégorie {{ article.category.title }})
                 <div class="content">
                     <img src="{{ article.image }}" alt="">
                     <p>{{ article.content }}</p>
@@ -35,11 +35,12 @@
         {% if article.comments is empty %}
             <p>Soyez le premier à commenter!</p>
         {% else %}
+            <h2>{{ article.comments.count }} commentaires</h2>
             {% for comment in article.comments %}
                 <div class="comment">
                     <div class="row">
                         <div class="col-3">
-                            {{ comment.createdAt | date('d/m/Y à H:i') }}
+                            {{ comment.createdAt | date('d/m/Y à H:i') }} par {{ comment.author.username }}
                         </div>
                         <div class="col">
                             {{ comment.content }}
