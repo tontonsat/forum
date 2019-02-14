@@ -75,6 +75,8 @@ class User implements UserInterface
     {
         $this->comments = new ArrayCollection();
         $this->articles = new ArrayCollection();
+
+        $this->roles[] = 'ROLE_USER';
     }
 
     public function getId(): ?int
