@@ -208,4 +208,11 @@ class User implements UserInterface
 
         return $this;
     }
+
+    public function addRole($data): self
+    {
+        $this->roles[] = $data;
+
+        return $this;
+    }
 }

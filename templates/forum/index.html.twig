@@ -1,6 +1,15 @@
 {% extends 'base.html.twig' %}
 {% block title %}Hello ForumController!{% endblock %}
 {% block body %}
+    {% for message in app.flashes('notice') %}
+        <div class="alert alert-dismissible alert-success">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          {{ message }}
+        </div>
+    {% endfor %}
+    {% if is_granted('ROLE_USER') %}
+        <a href="{{path('forum_addrole') }}" class="btn btn-primary">add role</a>
+    {% endif %}
     <section class="articles">
         {% for article in articles %}
         <article>
@@ -8,7 +17,12 @@
             <div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }} par {{ article.author.username }} (catégorie {{ article.category.title }})
                 <div class="content">
                     <img src="{{ article.image }}" alt="">
-                    <p>{{ article.content }}<a href="{{path('forum_show', {'id': article.id})}}" class="btn btn-primary">lire la suite</a> <a href="{{path('forum_edit', {'id': article.id})}}" class="btn btn-primary">Modifier</a></p>
+                    <p>{{ article.content }}<a href="{{path('forum_show', {'id': article.id})}}" class="btn btn-primary">lire la suite</a>
+                    {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')) and article.author.id == app.user.id %}
+                        <a href="{{path('forum_modif', {'id': article.id})}}" class="btn btn-primary">Modifier</a>
+                        <a href="{{path('forum_delete', {'id': article.id})}}" class="btn btn-primary">Supprimer</a>
+                    {% endif %}
+                    </p>
                 </div>
             </div>
         </article>

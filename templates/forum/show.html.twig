@@ -20,16 +20,18 @@
         </article>
     </section>
     <section class="new-comment">
-        {{ form_start(formComment) }}
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    {{ form_row(formComment.content, {'attr': {'placeholder': "Laisser un commentaire"}}) }}
+        {% if app.user is not null %}
+            {{ form_start(formComment) }}
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        {{ form_row(formComment.content, {'attr': {'placeholder': "Laisser un commentaire"}}) }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        <button type="submit" class="btn btn-success">Envoyer</button>
+                    </div>
                 </div>
-                <div class="form-group col-md-6">
-                    <button type="submit" class="btn btn-success">Envoyer</button>
-                </div>
-            </div>
-        {{ form_end(formComment) }}
+            {{ form_end(formComment) }}
+        {% endif %}
     </section>
     <section class="comments">
         {% if article.comments is empty %}
@@ -40,6 +42,9 @@
                 <div class="comment">
                     <div class="row">
                         <div class="col-3">
+                            {% if app.user is not null and comment.author.id == app.user.id %}
+                                <a href="{{path('forum_deleteComment', {'id': comment.id})}}" class="btn btn-primary">x</a>
+                            {% endif %}
                             {{ comment.createdAt | date('d/m/Y à H:i') }} par {{ comment.author.username }}
                         </div>
                         <div class="col">

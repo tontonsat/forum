@@ -16,6 +16,8 @@ security:
         main:
             anonymous: true
 
+            switch_user: true
+
             provider: in_database
 
             form_login:
@@ -25,6 +27,9 @@ security:
             logout:
                 path: security_logout
                 target: forum
+
+            access_denied_handler: App\Security\AccessDeniedHandler
+
             # activate different ways to authenticate
 
             # http_basic: true
@@ -38,3 +43,8 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/forum/new, roles: ROLE_USER }
+
+    role_hierarchy:
+        ROLE_USER: ~
+        ROLE_ADMIN: [ROLE_USER, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
