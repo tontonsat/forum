@@ -37,6 +37,12 @@
                             <a class="nav-link" href="{{ path('forum_create') }}">
                                 Nouveau thread<span class="sr-only">(current)</span></a>
                         </li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin">
+                                    admin<span class="sr-only">(current)</span></a>
+                            </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('security_logout') }}">
                                 Logout<span class="sr-only">(current)</span></a>
